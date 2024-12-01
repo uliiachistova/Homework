@@ -1,0 +1,271 @@
+.swiper-container {
+  width: 100%;
+  height: 600px;
+  margin: 0px auto;
+  position: relative;
+  /*border-bottom: 2px solid #000000;*/
+  padding-top: 64px;
+  /*padding-bottom: 8px;*/
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #F9C800;
+  transition: color 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: #FFC700;
+}
+
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  object-position: fill;
+}
+
+
+.swiper-container .swiper-pagination-bullet {
+  width: 15px;
+  height: 15px;
+  background-color: #F9C800;
+}
+
+
+.text-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px 0;
+  position: relative;
+}
+
+.text-divider::before, .text-divider::after {
+  content: '';
+  flex: 1;
+  height: 8px;
+  background-color: #F9C800;
+  margin: 0 28px;
+}
+
+.text-divider span {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #000000;
+  text-transform: uppercase;
+}
+
+
+
+.card-container {
+  display: flex;
+  width: 100%;
+  gap: 0; 
+  margin: 0 2px;
+}
+
+.card {
+  flex: 1;
+  height: 480px;
+  position: relative;
+  overflow: hidden; 
+  border-radius: 0; 
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: inherit; 
+  transition: transform 0.5s ease;
+  z-index: 1; 
+}
+
+.card:hover::before {
+  transform: scale(1.2); 
+}
+
+.gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0)); 
+  z-index: 2;
+}
+
+.slide-overlay {
+  height: 30%;
+  top:70%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)); 
+}
+
+.card-link {
+  position: absolute;
+  bottom: 16px; 
+  left: 50%;
+  transform: translateX(-50%);
+  text-decoration: none;
+  color: #FFFFFF;
+  padding: 12px 24px;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  z-index: 3; 
+  /*background-color: rgba(0, 0, 0, 0.5);*/
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.card-link:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.demo-catalog {
+  height: 500px;
+}
+
+
+.top-part-grid {
+  margin: 35px 240px;
+}
+/*
+.store {
+  height: 1000px;
+  width: 100%;
+  border-width: 0;
+}
+
+.filter-controls {
+  display: table;
+  width: 100%;
+}
+
+.filter-options {
+  display: table-cell;
+}
+
+.search-and-sort {
+  display: table-cell;
+  text-align: right;
+}
+
+*/
+
+/* Общие стили для каталога */
+.store {
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  color: #000;
+  background-color: #fff;
+  padding: 20px;
+}
+
+/* Стили верхней части */
+.top-part-grid {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.filter-controls {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Фильтры слева */
+.filter-options {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  font-size: large;
+}
+
+.filter {
+  position: relative;
+}
+
+.filter-label {
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  color: #000;
+}
+
+.filter-options-list {
+  margin-top: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  display: none;
+  position: absolute;
+  z-index: 100;
+}
+
+.filter-options-list.hidden {
+  display: none;
+}
+.filter-options-list {
+  display: block;
+}
+
+/* Поиск и сортировка справа */
+.search-and-sort {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
+#search-box {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+}
+
+#sort-options {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 5px 15px;
+  background-color: #F9C800;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #000;
+}
+
+button:hover {
+  background-color: #e0b700;
+}
+
+/* Стили для нижней части каталога */
+#catalog-results {
+  border-top: 2px solid #ccc;
+  padding-top: 20px;
+  font-size: 16px;
+}
