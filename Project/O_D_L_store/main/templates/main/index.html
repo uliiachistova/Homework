@@ -92,17 +92,17 @@
                 <div class="filter">
                     <span class="filter-label" onclick="toggleFilter('color-options')">Цвет</span>
                     <div id="color-options" class="filter-options-list hidden">
-                        <label><input type="checkbox" name="color" value="black"> Чёрный</label><br>
-                        <label><input type="checkbox" name="color" value="white"> Белый</label><br>
-                        <label><input type="checkbox" name="color" value="blue"> Синий</label><br>
+                        <label><input type="checkbox" name="color" value="Чёрный"> Чёрный</label><br>
+                        <label><input type="checkbox" name="color" value="Белый"> Белый</label><br>
+                        <label><input type="checkbox" name="color" value="Синий"> Синий</label><br>
                     </div>
                 </div>
                 <div class="filter">
                     <span class="filter-label" onclick="toggleFilter('shape-options')">Форма</span>
                     <div id="shape-options" class="filter-options-list hidden">
-                        <label><input type="checkbox" name="shape" value="round"> Круглая</label><br>
-                        <label><input type="checkbox" name="shape" value="square"> Квадратная</label><br>
-                        <label><input type="checkbox" name="shape" value="oval"> Овальная</label><br>
+                        <label><input type="checkbox" name="shape" value="Круглая"> Круглая</label><br>
+                        <label><input type="checkbox" name="shape" value="Квадратная"> Квадратная</label><br>
+                        <label><input type="checkbox" name="shape" value="Овальная"> Овальная</label><br>
                     </div>
                 </div>
             </div>
@@ -121,7 +121,15 @@
     </div>
 
     <div class="bottom-part-grid" id="catalog-results">
-        <!-- Результаты фильтрации будут добавляться сюда -->
+        {% for product in products %}
+        <div class="catalog-card" data-color="{{ product.color }}" data-shape="{{ product.shape }}" data-price="{{ product.price }}">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.description }}</p>
+            <span>{{ product.price }} ₽</span>
+        </div>
+        {% endfor %}
     </div>
+    
 </div>
 {% endblock %}
