@@ -138,11 +138,6 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.demo-catalog {
-  height: 500px;
-}
-
-
 .top-part-grid {
   margin: 35px 240px;
 }
@@ -227,6 +222,7 @@
 }
 .filter-options-list {
   display: block;
+  width: 150px;
 }
 
 /* Поиск и сортировка справа */
@@ -263,9 +259,81 @@ button:hover {
   background-color: #e0b700;
 }
 
-/* Стили для нижней части каталога */
-#catalog-results {
-  border-top: 2px solid #ccc;
-  padding-top: 20px;
-  font-size: 16px;
+.catalog-results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);/* Each column has a fixed width of 460px */
+  gap: 20px;
+  padding: 0 240px; /* Side padding for aligning catalog within the page */
+}
+
+/* Individual product card styling */
+.catalog-card {
+  border: 1px solid black; /* Thin black border */
+  border-radius: 10px; /* Rounded corners */
+  padding: 10px; /* Internal padding */
+  text-align: center; /* Centered text alignment */
+  background-color: #fff; /* White background */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: transform 0.2s, box-shadow 0.2s; /* Smooth transition effects */
+  min-height: 480px; /* Minimum height to ensure uniform card size */
+}
+
+/* Hover effect for card scale and shadow enhancement */
+.catalog-card:hover {
+  transform: scale(1.05); /* Slight enlargement */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+}
+
+/* Image styling for uniform square display */
+.catalog-card img {
+  width: 100%; /* Full width of the container */
+  height: auto; /* Maintain aspect ratio */
+  max-height: 400px; /* Ensure maximum height */
+  object-fit: cover; /* Crop and fill image to fit the container */
+  border-radius: 10px; /* Same border radius as card */
+  margin-bottom: 10px; /* Space below the image */
+}
+
+/* Placeholder image styling if no image is provided */
+.catalog-card .placeholder {
+  width: 100%; /* Full width of the container */
+  height: 0;
+  padding-bottom: 100%; /* Square aspect ratio */
+  background-color: #ccc; /* Neutral background color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  font-size: 14px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+/* Product name styling */
+.catalog-card h3 {
+  font-size: 18px; /* Larger, bold font */
+  font-weight: bold;
+  margin: 10px 0; /* Spacing around heading */
+  color: #333; /* Dark text color */
+}
+
+/* Product description styling */
+.catalog-card p {
+  font-size: 14px; /* Slightly smaller font */
+  color: #666; /* Gray text color */
+  margin: 10px 0; /* Spacing around description */
+  min-height: 40px; /* Ensures a consistent block size */
+}
+
+/* Product price styling */
+.catalog-card span {
+  font-size: 16px; /* Medium-bold font for price */
+  font-weight: bold;
+  color: #000; /* Black color for price */
+}
+
+sub {
+  color: #666;
+  opacity: 0.6;
 }

@@ -112,23 +112,34 @@
                 <select id="sort-options">
                     <option value="price_asc">Цена: по возрастанию</option>
                     <option value="price_desc">Цена: по убыванию</option>
-                    <option value="name_asc">Название: A-Z</option>
-                    <option value="name_desc">Название: Z-A</option>
+                    <option value="name_asc">Название: А-Я / A-Z</option>
+                    <option value="name_desc">Название: Я-А / Z-A</option>
                 </select>
                 <button onclick="applyFilters()">Применить</button>
             </div>
         </div>
     </div>
 
-    <div class="bottom-part-grid" id="catalog-results">
-        {% for product in products %}
-        <div class="catalog-card" data-color="{{ product.color }}" data-shape="{{ product.shape }}" data-price="{{ product.price }}">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}">
-            <h3>{{ product.name }}</h3>
-            <p>{{ product.description }}</p>
-            <span>{{ product.price }} ₽</span>
+    <div class="bottom-part-grid" id="catalog-results-wrapper">
+        <div class="catalog-results">
+            {% for product in products %}
+            <div class="catalog-card" data-color="{{ product.color }}" data-shape="{{ product.shape }}" data-price="{{ product.price }}">
+                {% if product.image %}
+                <!-- Product image dynamically resized to fit a square shape -->
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                <!-- Placeholder image if no product image is provided -->
+                <div class="placeholder">Нет изображения</div>
+                {% endif %}
+                <!-- Product name displayed as a bold heading -->
+                <h3>{{ product.name }}</h3>
+                <!-- Brief product description below the name -->
+                <p>{{ product.description }}</p>
+                <!-- Product price in rubles at the bottom of the card -->
+                <span>{{ product.price }} ₽</span>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
     
 </div>
