@@ -17,3 +17,6 @@ def catalog(request):
 
 def profile(request):
     return render(request, 'main/profile.html')
+
+def camera(request):
+    return render(request, 'main/camera.html')
