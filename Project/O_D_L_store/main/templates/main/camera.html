@@ -15,59 +15,170 @@
         background-color: #f0f0f0;
         font-family: Arial, sans-serif;
     }
-    #camera-container {
-        width: 100%;
-        max-width: 640px;
-        height: 480px;
-        background: url('{% static "main/img/camera/placeholder.jpg" %}') no-repeat center;
-        background-size: cover;
-        position: relative;
-        margin-bottom: 20px;
-    }
-    video {
-        width: 100%;
-        height: 100%;
-        display: none;
-    }
-    canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-    #effects-container {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 20px;
-    }
-    .effect-button {
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-    .effect-button:hover {
-        background-color: #0056b3;
-    }
+	/* Основной контейнер */
+	#camera-wrapper {
+		display: grid;
+		grid-template-areas:
+			". camera ."
+			"left camera right"
+			". bottom .";
+		grid-template-columns: 1fr 3fr 1fr; /* Возвращаем прежнюю ширину */
+		grid-template-rows: auto 3fr auto; /* Возвращаем прежнюю высоту */
+		gap: 20px;
+		align-items: center;
+		justify-items: center;
+		margin-top: 20px;
+	}
+
+	/* Камера */
+	#camera-container {
+		grid-area: camera;
+		width: 800px; /* Возвращаем прежний размер камеры */
+		height: 600px;
+		background: url('{% static "main/img/camera/placeholder.jpg" %}') no-repeat center;
+		background-size: cover;
+		position: relative;
+		border-radius: 10px;
+		overflow: hidden;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	}
+
+	video {
+		width: 100%;
+		height: 100%;
+		display: none;
+	}
+
+	canvas {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	/* Список оправ */
+	#glasses-list {
+		display: contents; /* Используем grid-области */
+	}
+
+	.glasses-item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+		background-color: #fff;
+		padding: 15px;
+		border-radius: 10px;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+
+	.glasses-item:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+	}
+
+	.glasses-item img {
+		width: 400px; /* Увеличиваем размер изображений в 2 раза */
+		height: auto;
+		border-radius: 10px;
+	}
+
+	.glasses-item span {
+		font-size: 18px;
+		font-weight: bold;
+		color: #333;
+	}
+
+	.glasses-item button {
+		padding: 10px 20px;
+		background-color: #F9C800;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		font-size: 16px;
+		color: #000;
+		transition: background-color 0.3s ease;
+	}
+
+	.glasses-item button:hover {
+		background-color: #e0b700;
+	}
+
+	/* Позиционирование оправ */
+	#glasses-right {
+		grid-area: right;
+	}
+
+	#glasses-bottom {
+		grid-area: bottom;
+	}
+
+	#glasses-left {
+		grid-area: left;
+	}
+
+	/* Контейнер для эффектов */
+	#effects-container {
+		display: flex;
+		justify-content: center;
+		gap: 10px;
+		margin-top: 20px;
+	}
+
+	.effect-button {
+		padding: 10px 20px;
+		background-color: #007bff;
+		color: white;
+		border: none;
+		border-radius: 5px;
+		cursor: pointer;
+		transition: background-color 0.3s;
+	}
+
+	.effect-button:hover {
+		background-color: #0056b3;
+	}
 </style>
 {% endblock %}
 
 {% block body_content %}
-<div id="camera-container">
-    <video id="video" autoplay></video>
-    <canvas id="overlay"></canvas>
+<div id="camera-wrapper">
+    <!-- Камера -->
+    <div id="camera-container">
+        <video id="video" autoplay></video>
+        <canvas id="overlay"></canvas>
+    </div>
+
+    <!-- Список оправ -->
+    <div id="glasses-list">
+    <!-- Оправы 3 слева -->
+    <div class="glasses-item" id="glasses-right">
+        <img src="{% static 'main/img/camera/glasses3.png' %}" alt="Оправы 3">
+        <span>Оправы 3</span>
+        <button class="effect-button" data-frame="glasses3.png">Выбрать</button>
+    </div>
+    <!-- Оправы 2 снизу -->
+    <div class="glasses-item" id="glasses-bottom">
+        <img src="{% static 'main/img/camera/glasses2.png' %}" alt="Оправы 2">
+        <span>Оправы 2</span>
+        <button class="effect-button" data-frame="glasses2.png">Выбрать</button>
+    </div>
+    <!-- Оправы 1 справа -->
+    <div class="glasses-item" id="glasses-left">
+        <img src="{% static 'main/img/camera/glasses1.png' %}" alt="Оправы 1">
+        <span>Оправы 1</span>
+        <button class="effect-button" data-frame="glasses1.png">Выбрать</button>
+    </div>
 </div>
+</div>
+
+<!-- Контейнер для эффектов (оставлен для возможного расширения) -->
 <div id="effects-container">
     <button class="effect-button" data-frame="stars.png">Звезды</button>
-    <button class="effect-button" data-frame="glasses1.png">Очки 1</button>
-    <button class="effect-button" data-frame="glasses2.png">Очки 2</button>
-    <button class="effect-button" data-frame="glasses3.png">Очки 3</button>
 </div>
+
 <script src="{% static 'main/js/face-api.min.js' %}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", async function() {
