@@ -3,7 +3,7 @@
 
 {% block title_content %} Примерка оправы {% endblock %}
 
-{% block head %} 
+{% block head %}
 <style>
     body {
         display: flex;
@@ -70,19 +70,20 @@
 </div>
 <script src="{% static 'main/js/face-api.min.js' %}"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", async function() {
-        console.log("Face API loaded:", typeof faceapi !== "undefined");
+    (async function() {
+        console.log("Инициализация face-api...");
+
         if (typeof faceapi === "undefined") {
-            console.error("Face API is not loaded!");
+            console.error("Face API не загружен!");
             return;
         }
 
         const video = document.getElementById("video");
         const canvas = document.getElementById("overlay");
         const context = canvas.getContext("2d");
+
         let frame = new Image();
         frame.src = "{% static 'main/img/camera/stars.png' %}";
-        
         frame.onload = () => console.log("Frame image loaded successfully");
         frame.onerror = () => console.error("Failed to load frame image");
 
@@ -95,56 +96,50 @@
             return;
         }
 
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
         await faceapi.nets.tinyFaceDetector.loadFromUri('/static/main/models');
         await faceapi.nets.faceLandmark68Net.loadFromUri('/static/main/models');
-        console.log("Face-api models loaded");
+        console.log("Модели face-api загружены");
 
         async function detectFace() {
             const options = new faceapi.TinyFaceDetectorOptions({
-                inputSize: 512, // Размер входного изображения
-                scoreThreshold: 0.5 // Порог уверенности детекции
+                inputSize: 512,
+                scoreThreshold: 0.44
             });
 
-            const detections = await faceapi.detectSingleFace(video, options).withFaceLandmarks();
-
+            const detection = await faceapi.detectSingleFace(video, options).withFaceLandmarks();
             context.clearRect(0, 0, canvas.width, canvas.height);
-            
-            if (detections) {
-                console.log("Detected")
-                const landmarks = detections.landmarks;
+
+            if (detection) {
+                const landmarks = detection.landmarks;
                 const leftEye = landmarks.getLeftEye();
                 const rightEye = landmarks.getRightEye();
-                
                 const eyeCenterX = (leftEye[0].x + rightEye[3].x) / 2;
                 const eyeCenterY = (leftEye[0].y + rightEye[3].y) / 2;
                 const eyeWidth = rightEye[3].x - leftEye[0].x;
                 const frameWidth = eyeWidth * 2;
                 const frameHeight = frameWidth * 0.5;
-                
+
                 context.drawImage(frame, eyeCenterX - frameWidth / 2, eyeCenterY - frameHeight / 2, frameWidth, frameHeight);
-            } else {
-                console.log('No detected')
             }
+
             requestAnimationFrame(detectFace);
         }
 
-        video.addEventListener("play", () => {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            detectFace();
-        });
+        detectFace();
 
-        // Обработка выбора эффектов
         const effectButtons = document.querySelectorAll('.effect-button');
         effectButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const frameSrc = button.getAttribute('data-frame');
                 frame = new Image();
-                frame.src = `/static/main/img/camera/${frameSrc}`; // Используем JavaScript для формирования пути
+                frame.src = `/static/main/img/camera/${frameSrc}`;
                 frame.onload = () => console.log("Frame image loaded successfully");
                 frame.onerror = () => console.error("Failed to load frame image");
             });
         });
-    });
+    })();
 </script>
 {% endblock %}
