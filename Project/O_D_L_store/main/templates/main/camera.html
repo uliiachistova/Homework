@@ -198,17 +198,21 @@
         frame.onload = () => console.log("Frame image loaded successfully");
         frame.onerror = () => console.error("Failed to load frame image");
 
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            video.srcObject = stream;
-            video.style.display = "block";
-        } catch (error) {
-            console.error("Ошибка доступа к камере:", error);
-            return;
-        }
+		try {
+			const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+			video.srcObject = stream;
+			video.style.display = "block";
 
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+			video.addEventListener('loadedmetadata', () => {
+				canvas.width = video.videoWidth;
+				canvas.height = video.videoHeight;
+				detectFace(); // Запускаем обработку только после загрузки метаданных
+			});
+		} catch (error) {
+			console.error("Ошибка доступа к камере:", error);
+			return;
+		}
+
 
         await faceapi.nets.tinyFaceDetector.loadFromUri('/static/main/models');
         await faceapi.nets.faceLandmark68Net.loadFromUri('/static/main/models');
@@ -230,16 +234,17 @@
                 const eyeCenterX = (leftEye[0].x + rightEye[3].x) / 2;
                 const eyeCenterY = (leftEye[0].y + rightEye[3].y) / 2;
                 const eyeWidth = rightEye[3].x - leftEye[0].x;
-                const frameWidth = eyeWidth * 2;
-                const frameHeight = frameWidth * 0.5;
+                const frameWidth = eyeWidth * 2.5;
+                const frameHeight = frameWidth * 0.6;
 
                 context.drawImage(frame, eyeCenterX - frameWidth / 2, eyeCenterY - frameHeight / 2, frameWidth, frameHeight);
+				console.log("Detection")
             }
 
             requestAnimationFrame(detectFace);
         }
 
-        detectFace();
+        // detectFace();
 
         const effectButtons = document.querySelectorAll('.effect-button');
         effectButtons.forEach(button => {
