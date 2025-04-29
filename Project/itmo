@@ -1,0 +1,23 @@
+with open('CdSe_CdZnS Core_Shell.txt', 'r') as file:
+    lines = file.readlines()
+
+data = []
+for line in lines:
+    parts = line.strip().replace(',', '.').split()
+    if len(parts) >= 2:
+        value = float(parts[1])
+        data.append(value)
+
+n = len(data)
+mean = 0.0
+for x in data:
+    mean += x
+mean /= n
+sum_sq_diff = 0.0
+for x in data:
+    diff = x - mean
+    sum_sq_diff += diff ** 2
+std_dev = (sum_sq_diff / n) ** 0.5
+
+print(f"Среднее значение: {mean:.2f}")
+print(f"Среднеквадратичное отклонение: {std_dev:.2f}")
